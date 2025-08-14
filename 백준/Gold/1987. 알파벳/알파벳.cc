@@ -16,31 +16,30 @@ point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
 void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
 void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-vi visited(26,0);
+bitset<26> bit;
+vector<vector<char>> vec;
 int res = 0;
-void bfs(vector<vector<char>> &vec, int i, int j, int depth){
-    visited[vec[i][j]-'A'] = 1;
+void bfs(int i, int j, int depth){
+    bit[vec[i][j]-'A']=1;
     res = max(depth,res);
 
     for(auto d : direction){
-        int x = i + d.x;
-        int y = j + d.y;
-        if(x<0||y<0||x>=vec.size()||y>=vec[0].size()||visited[vec[x][y]-'A']) continue;
+        int x = i + d.x;  int y = j + d.y;
+        if(x<0||y<0||x>=vec.size()||y>=vec[0].size()||bit[vec[x][y]-'A']) continue;
 
-        bfs(vec,x,y,depth+1);
+        bfs(x,y,depth+1);
     }
-    visited[vec[i][j]-'A'] =0;
+    bit[vec[i][j]-'A']=0;
 }
 int main(){
     FASTIO
     
     int n,k; cin >> n >> k;
-    vector<vector<char>> vec(n,vector<char>(k));
+    vec.resize(n,vector<char>(k));
     for(int i = 0 ; i < n ; i++)
         for(int j = 0 ; j < k ;  j++) cin >> vec[i][j];
     
-
-    bfs(vec,0,0,1);
+    bfs(0,0,1);
 
     cout << res;
 } 
