@@ -1,44 +1,46 @@
-#include<iostream>
-#include<string>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-int d[4][2]={{1,0},{-1,0},{0,-1},{0,1}};
-string b[20];
-int r,c; 
+#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef pair<ll, ll> pl;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<vector<int>> vvi;
+typedef vector<vector<ll>> vvll;
+typedef vector<pair<int, int>> vpi;
+typedef vector<pair<ll, ll>> vpll;
+typedef struct Point {int x, y;} point;
+point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
+#define modulo 1000000007
+void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
+void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-int ret[20][20] ={0,};
-int alpa[128]={0,};
+vi visited(26,0);
+int res = 0;
+void bfs(vector<vector<char>> &vec, int i, int j, int depth){
+    visited[vec[i][j]-'A'] = 1;
+    res = max(depth,res);
 
-int ret_max=0;
+    for(auto d : direction){
+        int x = i + d.x;
+        int y = j + d.y;
+        if(x<0||y<0||x>=vec.size()||y>=vec[0].size()||visited[vec[x][y]-'A']) continue;
 
-bool isOK(int y, int x){
-    return 0<=y && y<r && 0<=x && x<c;
-}
-
-void Find(int y,int x){  
-    for(int i=0;i<4;i++){
-        int n_y=y+d[i][0],n_x=x+d[i][1];
-        if(!isOK(n_y,n_x) || alpa[b[n_y][n_x]]) continue; // 범위를 넘었거나 이미 방문한 알파벳이면 패쓰
-        
-        ret[n_y][n_x]=ret[y][x]+1;
-        alpa[b[n_y][n_x]]++;
-        ret_max = max(ret[n_y][n_x],ret_max); // 최댓값 갱신 
-
-        Find(n_y,n_x);
-
-        alpa[b[n_y][n_x]]--;
+        bfs(vec,x,y,depth+1);
     }
+    visited[vec[i][j]-'A'] =0;
 }
-
-
 int main(){
-    ios::sync_with_stdio(0);cin.tie(0);
-    cin>>r>>c;
-    for(int i=0;i<r;i++)cin>>b[i];
+    FASTIO
+    
+    int n,k; cin >> n >> k;
+    vector<vector<char>> vec(n,vector<char>(k));
+    for(int i = 0 ; i < n ; i++)
+        for(int j = 0 ; j < k ;  j++) cin >> vec[i][j];
+    
 
-    alpa[b[0][0]]++;
-    ret_max=1;
-    ret[0][0]=1;
-    Find(0,0);
-    cout<<ret_max<<'\n';
-}
+    bfs(vec,0,0,1);
+
+    cout << res;
+} 
