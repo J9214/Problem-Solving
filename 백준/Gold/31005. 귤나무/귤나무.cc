@@ -20,26 +20,24 @@ int main(){
     FASTIO
 
     ll n, m, s=0; cin >> n>> m;
-    list<ll> ls;
-    for(int i = 0 ; i < n; i++){
-        ll d; cin >> d;
-        ls.push_back(d);
-        s+=d;
+    vll vec(n);
+    for(auto &i : vec){
+        cin >> i;
+        s+=i;
     }
     m%=s;
     while(1){
-        if(ls.empty()) break;
-        for (auto it = ls.begin(); it != ls.end(); ) {
-            if (*it > m) {
-                s -= *it;
-                it = ls.erase(it); 
+        bool f = 0;
+        s=0;
+        for(auto &i : vec){
+            if(m>=i){
+                m-=i;
+                s+=i;
+                f=1;
             }
-            else {
-                m -= *it;          
-                ++it;
-            }
-        }  
-        if(s)m%=s;
+        }
+        if(!f) break;
+        m%=s;
     }
     cout << m;
 }
