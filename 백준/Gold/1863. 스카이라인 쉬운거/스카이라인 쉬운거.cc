@@ -22,14 +22,12 @@ int main(){
     FASTIO
 
     int n; cin >> n;
-    stack<int> st;
+    priority_queue<int> pq;
     int res =0 ;
     while(n--){
         int a,b;cin >>a >> b;
-        while(!st.empty()&&st.top() > b){
-            res++,st.pop();
-        }
-        if(b&&(st.empty()||st.top() != b)) st.push(b);
+        while(!pq.empty()&&pq.top() > b) res++,pq.pop();
+        if(b&&(pq.empty()||pq.top() != b)) pq.push(b);
     }
-    cout << res+st.size();
+    cout << res+pq.size();
 }
