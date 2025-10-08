@@ -18,25 +18,27 @@ void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '
 void print(vi vec){for(auto i : vec) cout << i << ' ';}
 #define modulo 1000000007
 
+struct inf{int s,e,l;};
+
 int main(){
     FASTIO
 
     int n,m; cin >> n >> m;
     vi vec(m+1);
-    vector<tuple<int,int,int>> road(n);
+    vector<inf> road(n);
     for(int i = 0 ; i < n ; i++){
         int a,b,c;cin >> a >> b >> c;
         road[i]={a,b,c};
     }
-    sort(road.begin(),road.end(),[](tuple<int,int,int> &a, tuple<int,int,int> &b){
-        return get<1>(a)<get<1>(b);
+    sort(road.begin(),road.end(),[](inf &a, inf &b){
+        return a.e<b.e;
     });
 
     int j = 0;
     vec[0] = 0;
     for(int i = 1 ; i <= m ; i++){
         vec[i] = vec[i-1]+1;
-        while(j<n&&get<1>(road[j])==i) vec[i] = min(vec[i], vec[get<0>(road[j])] + get<2>(road[j])), j++;
+        while(j<n&&road[j].e==i) vec[i] = min(vec[i], vec[road[j].s] + road[j].l), j++;
     }
     cout << vec[m];
 }   
