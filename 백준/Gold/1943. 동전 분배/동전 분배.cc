@@ -26,7 +26,9 @@ int main(){
         for(int i = 0 ; i < n ; i++){
             int a,b; cin >> a >> b;
             total += a*b;
-            while(b--) vec.push_back(a);
+            for(int j = 1; b >= j; j*=2, b-=j)
+                vec.push_back(j*a);
+            if(b) vec.push_back(a*b);
         }
 
         if(total%2){cout << 0 << '\n'; continue;}
