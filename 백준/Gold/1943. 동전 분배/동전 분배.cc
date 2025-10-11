@@ -22,29 +22,20 @@ int main(){
     for(int t= 0; t < 3; ++t){
         int n; cin >> n;
         int total = 0;
-        vpi vec;
+        vi vec;
         for(int i = 0 ; i < n ; i++){
             int a,b; cin >> a >> b;
-            vec.push_back({a,b});
             total += a*b;
+            while(b--) vec.push_back(a);
         }
 
         if(total%2){cout << 0 << '\n'; continue;}
 
-        vi dp(total+1,-1);
-        dp[0] = 0;
-        for(int i = 0 ; i < n ; i++){
-            for(int j = total ; j >= 0; j--){
-                if(dp[j]!=-1) {
-                    for(int k = 1 ; k <= vec[i].second; k++){
-                        int idx = j+k*vec[i].first;
-                        if(idx <= total) dp[idx] = dp[j]+k; 
-                    }
-                }
-            }
-        }
+        bitset<50001> dp;
+        dp[0] = 1;
+        for(auto i : vec) dp |= (dp<<i);
         
-        cout << (dp[total/2]!=-1 ? 1 : 0) << '\n';
+        cout << dp[total/2] << '\n';
     }
     
 }
