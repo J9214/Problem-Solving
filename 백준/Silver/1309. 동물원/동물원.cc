@@ -20,12 +20,12 @@ int main(){
     FASTIO
 
     int n; cin >> n;
-    vi vec(n+1);
+    vi vec(3);
     vec[0] = 1;
     vec[1] = 3;
     
     for(int i = 2 ; i <= n ; i++)
-        vec[i] = (vec[i-1]*2+vec[i-2])%9901;
+        vec[i%3] = (vec[(i+2)%3]*2+vec[(i+1)%3])%9901;
     
-    cout <<vec[n];
+    cout <<vec[n%3];
 }
