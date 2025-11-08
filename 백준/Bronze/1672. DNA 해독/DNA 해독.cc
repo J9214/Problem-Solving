@@ -19,7 +19,7 @@ void print(vi vec){for(auto i : vec) cout << i << ' ';}
 int main(){
     FASTIO
 
-    map<string, char> mp;
+    unordered_map<string, char> mp;
 
     mp["AA"]='A';
     mp["AG"]='C';
