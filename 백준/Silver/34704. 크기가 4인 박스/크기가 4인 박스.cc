@@ -1,33 +1,39 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<queue>
+#include<algorithm>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
-
 int main(){
-    FASTIO
-    int n; cin >> n;
-    vi vec(n);
-    for(auto &i :vec) cin>>i;
-    sort(vec.begin(),vec.end());
-    
-    int i = 0, j = n-1;
-    while(i<j){
-        if(vec[j]+vec[i] <= 4) vec[j]+=vec[i++];
-        else j--;
-    }
+    ios::sync_with_stdio(0);cin.tie(0);
+    deque<int> dq;
+    int n,tmp; cin>>n;
+    while(n--){cin>>tmp; dq.push_back(tmp);}
+    sort(dq.begin(),dq.end(),greater<int>());
 
-    cout << n-j;
+    int ret=0;
+    while(dq.size()){
+        int cur = dq.front(); dq.pop_front();
+        ret++;
+        if(cur==4) continue; 
+        else if(cur==3){
+            if(dq.size() && dq.back()==1) dq.pop_back();
+        }
+        else if(cur==2){
+            if(dq.size()){
+                if(dq.back()==2)dq.pop_back();
+                else if(dq.back()==1){
+                    dq.pop_back();
+                    if(dq.back()==1)dq.pop_back();
+                }
+            }
+        }
+        else if(cur==1){
+            int cnt=0;
+            while(dq.size()&& cnt<3){
+                dq.pop_back();
+                cnt++;
+            }
+        }
+        continue;
+    }
+    cout<<ret<<'\n';
 }
