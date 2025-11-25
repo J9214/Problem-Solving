@@ -1,50 +1,40 @@
-#include <bits/stdc++.h>
+#include<iostream>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
+int dir[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+char m[5][5];
+int visit[5][5];
+int a,b,c;
 
-int n,m,k,res;
-vvi vec;
-void func(int x, int y, int d){
-    if(x==0&&y==m-1&&d==k) {res++; return;}
-    if(d>=k) return;
-    vec[x][y] = -1;
-
-    for(auto dir : direction){
-        int nx = x + dir.x;
-        int ny = y + dir.y;
-
-        if(nx<0||ny<0||nx>=n||ny>=m||vec[nx][ny]==-1) continue;
-        
-        func(nx,ny,d+1);
-    }
-    vec[x][y]=0;
+bool isOK(int y,int x){
+    return 0<=y && y<a && 0<=x && x<b && m[y][x]!='T';
 }
-int main(){
-    FASTIO
 
-    cin >> n >> m >> k;
-    vec.resize(n,vi(m));
-    for(auto &i : vec) for(auto &j:i){
-        char d; cin >> d;
-        if(d=='.') j=0;
-        else j=-1;
+int ret=0;
+void DFS(int y, int x, int depth){
+    //base
+    if(depth>=c){
+        if(y==0 && x==b-1) ret++;
+        return;
     }
+    // recursive
+    for(int i=0;i<4;i++){
+        int ny = y+dir[i][0];
+        int nx = x+dir[i][1];
 
-    func(n-1,0,1);
+        if(!isOK(ny,nx) || visit[ny][nx]) continue;
+        visit[ny][nx]=1;
+        DFS(ny,nx,depth+1);
+        visit[ny][nx]=0;
+    }
+    
+}
 
-    cout << res;
-}   
+int main(){
+    ios::sync_with_stdio(0);cin.tie(0);
+    cin>>a>>b>>c;
+    for(int i=0;i<a;i++)cin>>m[i];
+    visit[a-1][0]=1;
+    DFS(a-1,0,1);
+    cout<<ret<<'\n';
+
+}
