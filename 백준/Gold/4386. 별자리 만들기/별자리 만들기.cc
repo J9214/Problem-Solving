@@ -29,20 +29,7 @@ struct star{
 int root[101];
 
 int find(int x) {
-    if (root[x] == x) {
-        return x;
-    } else {
-        return root[x] = find(root[x]);
-    }
-}
-
-void Union(int x, int y){
-    x = find(x);
-    y = find(y);
-
-    if(x != y){
-        root[x] = y;
-    }
+    return (root[x] == x ? x : find(root[x]));
 }
 
 int main(){
@@ -67,9 +54,10 @@ int main(){
     double res = 0;
     while(pq.size()){
         auto [d,x,y] = pq.top(); pq.pop();
-        if(find(x)==find(y)) continue;
+        int q = find(x), w = find(y);
+        if(q==w) continue;
         res+=sqrt(d);
-        Union(x,y);
+        root[q] = w;
     }
     cout << res;
 }
