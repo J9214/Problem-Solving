@@ -1,44 +1,46 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<cstring>
+#define SIZE 500000
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define X first
-#define Y second
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
-#define modulo 1000000007
 
-vi vec(500001);
-int find(int x){
-    return (vec[x] == x) ? x : (vec[x] = find(vec[x]));
+// 매번 BFS로 사이클 찾는건 비효율적
+// -> 각 간선을 추가할 때마다 UF로 두 정점이 같은 집합인지 확인
+
+
+int n,m; 
+int UF[SIZE];
+int R[SIZE]={0,};
+int Root(int p){
+   if(UF[p]==p) return p;
+   return UF[p] = Root(UF[p]);
 }
 int main(){
-    FASTIO
+    ios::sync_with_stdio(0);cin.tie(0);
+    
+    // freopen("input.txt","r",stdin);
 
-    int n, m; cin >> n >> m;
-    
-    for(int i = 0 ; i <=n; i++)
-        vec[i] = i;
-    
-    for(int i = 1 ; i <= m; i++){
-        int a,b;cin >> a >> b;
-        a = find(a);
-        b = find(b);
-        if(a==b) {
-            cout << i;
+    cin>>n>>m;
+    for(int i=0;i<n;i++)UF[i]=i; // UF 초기화 
+
+    for(int i=0,a,b;i<m;i++){
+        cin>>a>>b;
+        int R_a=Root(a); 
+        int R_b=Root(b);
+
+        if(R_a==R_b){
+            cout<<i+1<<'\n';
             return 0;
         }
-        else vec[a] = b;
+
+        if(R[R_a]>R[R_b]){
+            UF[R_b]=R_a;
+        }
+        else{
+            UF[R_a]=R_b;
+            if(R[R_a]==R[R_b]) R[R_a]++;
+        }
     }
-    cout << 0;
+    cout<<0<<'\n';
 }
