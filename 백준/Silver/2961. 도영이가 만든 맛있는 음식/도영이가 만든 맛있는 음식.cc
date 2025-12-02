@@ -1,44 +1,41 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<climits>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-vpi vec;
-int res = 1000000000;
+struct Info{int s,b;};
 
-void func(int idx, int d, int m, int a, int b){
-    if(d==m) {
-        res = min(res, abs(a-b));
+vector<Info> list;
+int n;
+int ret= INT_MAX;
+
+void Solution(int v, int d){
+    //base
+    if(d>=n){
+        if(!v) return; // 하나도 안넣었으면 패쓰
+        int total_s=1,total_b=0;
+        for(int i=0;i<n;i++){
+            if((v>>i)&1){
+                total_s *=list[i].s;
+                total_b +=list[i].b;
+            }
+        }
+        ret=min(abs(total_s-total_b),ret);
         return;
     }
 
-    for(int i = idx; i < vec.size(); i++)
-        func(i+1, d+1, m, a*vec[i].first, b+vec[i].second);
-    
+    //recursive
+    Solution(v|(1<<d),d+1);// 넣는 경우
+    Solution(v,d+1); // 안넣는 경우
 }
 int main(){
-    FASTIO
-
-    int n; cin >> n;
-    vec.resize(n);
-
-    for(auto &i : vec) cin >> i.first >> i.second;
-
-     for(int i = 1 ; i <=n ; i++)
-        func(0,0,i,1,0);
+    ios::sync_with_stdio(0);cin.tie(0);
     
-    cout << res;
+    cin>>n;
+    for(int i=0,a,b;i<n;i++){
+        cin>>a>>b;
+        list.push_back({a,b});
+    }
+    Solution(0,0);
+    cout<<ret<<'\n';
 }
