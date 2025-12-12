@@ -21,18 +21,16 @@ int main(){
     
     ll n,m; cin >> n >> m;
     ll res =0;
+    ll pre = 0;
     vll vec(m,-1);
     vec[0] = 0;
 
-    vll arr(n), pre(n);
-    for(auto &i : arr) cin >> i;
+    while(n--) {
+        ll d; cin >> d;
+        pre += d;
+        res += ++vec[pre%m];
+    } 
 
-    for(int i = 0 ; i < n ; i++) {
-        pre[i] = arr[i] + (i?pre[i-1]:0);
-        ll div = pre[i] % m;
-        res += ++vec[div];
-    }
-    
 
     cout << res;
 }
