@@ -20,9 +20,6 @@ int main(){
     FASTIO
 
     int n; cin >> n;
-    string s, t; cin >> s;
-    sort(s.begin(),s.end());
-    t=s;
-    while(--n) s+=t;
-    cout << s;
+    string s; cin >> s;
+    while(n--) cout << s;
 }
