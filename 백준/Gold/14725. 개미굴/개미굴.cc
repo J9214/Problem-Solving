@@ -1,63 +1,46 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+#define SIZE 1000
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-struct Ant{
-    Ant():k(""), vec({}){};
-    Ant(string k, vector<Ant> vec):k(k), vec(vec){};
+vector<vector<string>> vec;
 
-    string k;
-    vector<Ant> vec;
-};
-
-void Result(Ant& ant, int d){
-    sort(ant.vec.begin(),ant.vec.end(),[](Ant &a, Ant &b){
-        return a.k < b.k;
-    });
-
-    for(auto i: ant.vec){
-        for(int i = 0 ; i < d; i++) cout << "--";
-        cout << i.k << '\n';
-        Result(i, d+1);
-    }
-}
 int main(){
-    FASTIO
-    
-    Ant root;
+    //ios::sync_with_stdio(0);cin.tie(0);
 
-    int n; cin >> n;
-    while(n--){
-        int m; cin >> m;
-        Ant* curr = &root;
+    // freopen("input.txt","r",stdin);
 
-        for(int i = 0 ; i < m ; i ++){
-            string s; cin >> s;
-            auto it = find_if(curr->vec.begin(), curr->vec.end(), [&](const Ant &a){return a.k == s;});
+    int n; cin>>n;
+    string str;
+    for(int i=0,cnt;i<n;i++){
+        cin>>cnt;
 
-            if(it == curr->vec.end()){
-                curr->vec.emplace_back(s,vector<Ant>{});
-                curr = &curr->vec.back();
+        vector<string> t;
+        while(cnt--){
+            cin>>str;
+            t.push_back(str);
+        }
+        vec.push_back(t);
+    }
+
+    sort(&vec[0],&vec[0]+n);
+
+    vector<string> v;
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<vec[i].size();j++){
+            if(j>=v.size()) v.push_back(vec[i][j]);
+            else if(vec[i][j] == v[j]) continue;
+            else {
+                while(v.size()>j)v.pop_back();
+                v.push_back(vec[i][j]);
             }
-            else{
-                curr = &*it;
-            }
+
+            int tmp=j;
+            while(tmp--) cout<<"--";
+            cout<<v[j]<<'\n';
         }
     }
-
-    Result(root,0);
 }
