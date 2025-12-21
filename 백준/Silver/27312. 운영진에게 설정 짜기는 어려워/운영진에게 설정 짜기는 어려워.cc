@@ -25,7 +25,7 @@ int main(){
 
     vi ret;
     for(int i = 0 ; i < n ; i++){
-        cout << '?' << ' ' << i+1 << ' ' << i+1 << '\n' << flush;
+        cout << '?' << ' ' << i+1 << ' ' << i+1 << endl;
         int t; cin >> t;
         ret.push_back((t+1>vec[i]?1:t+1));
     }
