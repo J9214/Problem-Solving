@@ -26,13 +26,13 @@ void calc(int b){
     int t2 = 0;
 
     for(int i = 0 ; i < n; i++){
-        for(int j = 0 ; j < n ; j++){
+        for(int j = i+1 ; j < n ; j++){
             if((b & (1<<i)) && (b & (1<<j))){
-                t1+=vec[i][j];
+                t1+=vec[i][j]+vec[j][i];
             }
 
             if(!(b & (1<<i)) && !(b & (1<<j))){
-                t2+=vec[i][j];
+                t2+=vec[i][j]+vec[j][i];
             }
         }
     }
