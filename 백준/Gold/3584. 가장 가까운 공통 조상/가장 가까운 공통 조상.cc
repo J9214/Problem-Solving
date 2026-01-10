@@ -16,46 +16,33 @@ point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
 void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
 void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-vvi vec;
-
-int check(vi &rank, int num){
-    int d;
-    if(vec[num].empty()) d=0;
-    else if(rank[vec[num][0]]) d = rank[vec[num][0]];
-    else d = check(rank, vec[num][0]);
-
-    return (rank[num] = 1 + d);
-}
-
 int main(){
     FASTIO
  
     int t;  cin >> t;
     while(t--){
-        int n; cin >> n;
+        int n,a,b; cin >> n;
+        
+        vi vec(n+1, 0);
+        while(--n){
+            cin >> a >> b;
+            vec[b]=a;
+        }
+        
+        cin >> a >> b;
 
-        vec.clear();
-        vec.resize(n+1);
-        vi rank(n+1,0);
-        for(int i = 1 ; i < n; i++){
-            int a,b; cin >> a >> b;
-
-            vec[b].push_back(a);
+        while(vec[a]){
+            int next = vec[a];
+            vec[a] = 0; 
+            a=next;
         }
 
-        for(int i = 1; i <= n ; i++){
-            if(!rank[i]) check(rank, i);
+        while(vec[b]){
+            int next = vec[b];
+            vec[b] = 0; 
+            b=next;
         }
 
-        int a,b; cin >> a >> b;
-
-        while(a!=b){
-            if(rank[a]<rank[b]) b=vec[b][0];
-            else a=vec[a][0];
-        }
-
-        cout << a << '\n';
+        cout << b << '\n';
     }
-
-
 }
