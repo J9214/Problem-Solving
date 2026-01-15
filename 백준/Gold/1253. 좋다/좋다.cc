@@ -1,42 +1,33 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<algorithm>
+#define SIZE 2000
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
+int arr[SIZE];
 int main(){
-    FASTIO
+    ios::sync_with_stdio(0);cin.tie(0);
 
-    int n; cin >> n;
-    vll vec(n);
+    int n; cin>>n;
+    for(int i=0;i<n;i++) cin>>arr[i];
+    sort(arr,arr+n);
 
-    for(auto &i : vec) cin >> i;
-    
-    sort(vec.begin(),vec.end());
+    int ret=0;
+    for(int i=0;i<n;i++){
+        int l=0,r=n-1,goal=arr[i];
+        
+        while(l<r){
+            // "다른" 수 두 개의 합이여야 함 
+            if(l==i){l++; continue;}
+            if(r==i){r--; continue;}
 
-    ll res = 0;
-
-    for(int i = 0 ; i < n; i++){
-        int j = 0, k = n-1;
-        while(j<k){
-            if(j==i) {j++; continue;}
-            if(i==k) {k--; continue;}
-            if(vec[j]+vec[k]==vec[i]) {res++; break;}
-            if(vec[j]+vec[k]<vec[i]) j++;
-            else k--;
+            int cur = arr[l]+arr[r];
+            if(cur==goal){
+                ret++;
+                break;
+            }
+            else if(cur<goal) l++;
+            else r--;
         }
     }
-    cout << res;
-} 
+    cout<<ret<<'\n';
+}
