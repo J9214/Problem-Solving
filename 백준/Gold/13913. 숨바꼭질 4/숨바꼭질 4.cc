@@ -31,24 +31,15 @@ void func(){
 
         if(d>vec[c]) continue;
         int nd = d+1;
-        int p = c-1;
-        if((0<=p && p<=200000) && (vec[p] == -1 || vec[p] > nd)){
+        
+        for(int p : {c-1, c+1, c*2}){
+            if(p<0||p>200000||vec[p]>=0) continue;
+            
             vec[p] = nd;
             parent[p] = c;
             pq.push({nd, p});
         }
-        p = c+1;
-        if((0<=p && p<=200000) && (vec[p] == -1 || vec[p] > nd)){
-            vec[p] = nd;
-            parent[p] = c;
-            pq.push({nd, p});
-        }
-        p = c*2;
-        if((0<=p && p<=200000) && (vec[p] == -1 || vec[p] > nd)){
-            vec[p] = nd;
-            parent[p] = c;
-            pq.push({nd, p});
-        }
+       
     }
     
 }
