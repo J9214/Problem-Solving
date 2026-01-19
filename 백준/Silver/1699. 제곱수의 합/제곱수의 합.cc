@@ -21,13 +21,10 @@ int main(){
 
     int n; cin >> n;
     vi vec(n+1,9999999);
-    vi pw;
     vec[0] = 0;
-    for(int i = 1; i*i <= n; i++) pw.push_back(i*i);
     for(int i = 1 ; i <= n ; i++){
-        int t = upper_bound(pw.begin(),pw.end(),i)-pw.begin();
-        for(int j = t-1; j >=0; j--) {
-            vec[i] = min(vec[i], vec[i-pw[j]] + 1);
+        for(int j = 1 ; j * j <= i; j++) {
+            vec[i] = min(vec[i], vec[i-j*j] + 1);
         }
     }
     cout << vec[n];
