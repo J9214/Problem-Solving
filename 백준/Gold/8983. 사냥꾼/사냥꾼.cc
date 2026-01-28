@@ -21,10 +21,9 @@ void print(vi vec){for(auto i : vec) cout << i << ' ';}
 int main(){
     FASTIO
 
-    int m, n, l; cin >> m >> n>> l;
-    vi gun(m);
-    vpi ani(n);
-    vi isDead(n,0);
+    ll m, n, l; cin >> m >> n>> l;
+    vll gun(m);
+    vpll ani(n);
     for(int i = 0 ; i < m ; i++) cin >> gun[i];
     for(int i = 0 ; i < n ; i++) {
         int a,b;cin >> a >> b;
@@ -34,16 +33,31 @@ int main(){
     sort(gun.begin(),gun.end());
     sort(ani.begin(),ani.end());
 
-    int i=0,j=0,res=0;
-    while(i<n||j<m){        
-        if(i<n&&j<m&&abs(gun[j]-ani[i].X)+ani[i].Y <= l) {
-            res++;
-            i++;
-        }
-        else if(j<m&&gun[j]<ani[i].X) j++;// 삼각형 오른쪽으로 벗어날 때는 i++;
-        else if(i<n)i++;
-        else j++;
+    int res =0;
+    for(int i = 0 ; i < ani.size(); i++){
+        if(ani[i].Y>l) continue;
+
+        ll le=0,ri=gun.size()-1;
         
-    }
+        bool bOk=false;
+
+        while(le <= ri){
+            ll mid = (le+ri)/2;
+
+            if(abs(gun[mid]-ani[i].X)+ani[i].Y <= l){
+                bOk=true;
+                break;
+            }
+            else{
+                if(ani[i].X < gun[mid]){
+                    ri = mid-1;
+                }
+                else le = mid+1;
+            }
+        }
+
+        res += bOk;
+    }    
     cout << res;
+
 }
