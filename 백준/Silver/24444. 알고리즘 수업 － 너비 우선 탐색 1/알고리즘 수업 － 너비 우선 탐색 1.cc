@@ -1,38 +1,57 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<queue>
-#define SIZE 100'001
+#include <bits/stdc++.h>
 using namespace std;
-vector<vector<int>> graph(SIZE);
-int v[SIZE]={0,};
-int main(){
-    ios::sync_with_stdio(0);cin.tie(0);
+#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef pair<ll, ll> pl;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<vector<int>> vvi;
+typedef vector<vector<ll>> vvll;
+typedef vector<pair<int, int>> vpi;
+typedef vector<pair<ll, ll>> vpll;
+typedef struct Point {int x, y;} point;
+point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
+#define modulo 1000000007
+void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
+void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
-    // 입력 받기 
-    int n,m,r; cin>>n>>m>>r;
-    for(int i=0,a,b;i<m;i++){
-        cin>>a>>b;
-        graph[a].push_back(b);
-        graph[b].push_back(a);
-    }
+vvi vec;
+vi visited;
+int co = 2;
 
-    // 정점 번호를 오름차순으로 방문
-    for(int i=1;i<=n;i++) sort(graph[i].begin(),graph[i].end());
-
-    // BFS
-    int cnt=1;
+void bfs(int k){
+    visited[k] = 1;
     queue<int> q;
-    q.push(r);
-    v[r]=cnt++;
+
+    q.push(k);
+
     while(q.size()){
-        int cur = q.front(); q.pop();
-        for(int i=0;i<graph[cur].size();i++){
-            int next = graph[cur][i];
-            if(v[next]) continue;
-            v[next]=cnt++;
-            q.push(next);
+        auto c = q.front(); q.pop();
+
+        sort(vec[c].begin(),vec[c].end());
+        for(auto &i : vec[c]){
+            if(visited[i]) continue;
+            
+            visited[i]=co++;
+            q.push(i);
         }
     }
-    for(int i=1;i<=n;i++) cout<<v[i]<<'\n';
+    
+}
+int main(){
+    FASTIO
+
+    int n,m,k; cin >> n >> m >> k;
+    vec.resize(n+1);
+    visited.assign(n+1,0);
+
+    while(m--){
+        int a,b;cin >> a >> b;
+        vec[a].push_back(b);
+        vec[b].push_back(a);
+    }
+
+    bfs(k);
+    for(int i = 1; i < visited.size(); i++) cout << visited[i] << '\n';
 }
