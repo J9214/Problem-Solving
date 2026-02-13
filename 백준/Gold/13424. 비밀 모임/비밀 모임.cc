@@ -17,7 +17,7 @@ void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '
 void print(vi vec){for(auto i : vec) cout << i << ' ';}
 
 int main(){
-    //FASTIO
+    FASTIO
     
     int t; cin  >>t;
     while(t--){
