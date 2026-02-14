@@ -5,15 +5,14 @@ using namespace std;
 int main(){
     FASTIO
  
-    int n, m, i=0; cin >> n >> m;
+    long long n, m, i; cin >> n >> m;
+    long long b = n;
 
-    bitset<64> b(n);
-
-    for(int i = 0 ; m && i < 64 ; i++){
-        if(b[i]) continue;
-        b[i] = m&1;
+    for(i = 0 ; m && i < 64 ; i++){
+        if(n&1LL<<i) continue;
+        b |= (m&1)<<i;
         m>>=1;
     }
 
-    cout << b.to_ullong()-n;
+    cout << b-n;
 }
