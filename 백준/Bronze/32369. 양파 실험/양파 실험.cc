@@ -1,30 +1,17 @@
-#include <bits/stdc++.h>
+#include<iostream>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
-
 int main(){
-    FASTIO
+	ios::sync_with_stdio(0);cin.tie();
+	int a,b,n; cin>>n>>a>>b;
+	int c=1,d=1;
+	while(n--){
+		c+=a;d+=b; 
+		if(c<d){
+			int tmp=c;
+			c=d; d=tmp;
+		}
 
-    int n,m,k; cin >> n >> m >> k;
-    int a=1,b=1;
-    for(int i = 0 ; i < n ; i++){
-        a+=m; b+=k;
-        if(b>a) swap(a,b);
-        if(a==b) b--;
-    }
-    cout << a << ' ' << b;
+		if(c==d)d--;
+	}
+	cout<<c<<' '<<d<<endl;
 }
