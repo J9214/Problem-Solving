@@ -1,16 +1,25 @@
-#include <bits/stdc++.h>
-using namespace std;
-typedef long long ll;
+#include<iostream>
+#include<map>
+using namespace  std;
 
-ll n,p,q; 
-map<ll,ll> mp;
-ll func(ll n){
-    if(mp[n]) return mp[n];
-    return mp[n] = func(n/p)+func(n/q);
+map<long long,long long> m;
+long long n,p,q;
+
+long long Solve(long long n){
+    // base
+    if(n==0) return 1;
+
+    // recursive
+    long long ret;
+    if(m[n]) ret = m[n];
+    else{
+        ret = Solve(n/p) + Solve(n/q);
+        m[n] = ret;
+    }
+    return ret;
 }
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-    mp[0]=1;
-    cin >> n >> p >> q;
-    cout << func(n);
+    ios::sync_with_stdio(0); cin.tie(0);
+    cin>>n>>p>>q;
+    cout<<Solve(n)<<'\n';
 }
