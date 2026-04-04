@@ -7,17 +7,13 @@ long long n,p,q;
 
 long long Solve(long long n){
     // base
-    if(n==0) return 1;
+    if(!n) return 1;
 
     // recursive
-    long long ret;
-    if(m[n]) ret = m[n];
-    else{
-        ret = Solve(n/p) + Solve(n/q);
-        m[n] = ret;
-    }
-    return ret;
+    if(m[n]) return m[n];
+    return m[n] = Solve(n/p) + Solve(n/q);
 }
+
 int main(){
     ios::sync_with_stdio(0); cin.tie(0);
     cin>>n>>p>>q;
