@@ -1,35 +1,36 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#define SIZE 100'001
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
+
+struct info
+{
+    int s,e;
+
+    bool operator<(const info&a) const {
+        if(s==a.s) return s<a.e;
+        return s<a.s;
+    }
+};
+
+info arr[SIZE];
+priority_queue<int,vector<int>,greater<int>> pq; // 사용중인 회의실
 
 int main(){
-    FASTIO
+    ios::sync_with_stdio(0);cin.tie(0);
 
-    int n, res = 0, t = 0; cin >> n;
-    map<int,int> mp;
-    for(int i = 0 ; i < n ; i++) {
-        int a,b; cin >> a >> b;
-        mp[a]++;
-        mp[b]--;
+    int n; cin>>n;
+    for(int i=0;i<n;i++) cin>>arr[i].s>>arr[i].e;
+    sort(arr,arr+n);
+
+    pq.push(0);
+
+    for(int i=0;i<n;i++){
+        info cur = arr[i];
+        if(pq.top()<=cur.s) pq.pop();
+        pq.push(cur.e);
     }
 
-    for(auto i:mp){
-        t += i.second;
-        res = max(res,t);
-    }
-    cout << res;
+    cout<<pq.size()<<'\n';
 }
