@@ -1,51 +1,49 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<climits>
+#define SIZE 50'001
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<ll>> vvll;
-typedef vector<pair<int, int>> vpi;
-typedef vector<pair<ll, ll>> vpll;
-typedef struct Point {int x, y;} point;
-point direction[4] = {{1,0},{0,1},{-1,0},{0,-1}};
-#define modulo 1000000007
-void print(vvi mat){for(auto i : mat){for(auto j : i) cout << j << ' ';cout << '\n';}}
-void print(vi vec){for(auto i : vec) cout << i << ' ';}
+
+vector<vector<pair<int,int>>> graph(SIZE);
+priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq; // 코스트, 노드
+
+
+int arr[SIZE];
 
 int main(){
-    FASTIO
- 
-    int n,m; cin >> n >> m;
-    
-    vector<vpi> vec(n+1);
-    while(m--){
-        int a,b,c; cin >>a>>b>>c;
-        vec[a].push_back({c,b});
-        vec[b].push_back({c,a});
+    ios::sync_with_stdio(0);cin.tie(0);
+
+    // 입력받기
+    int n,m; cin>>n>>m;
+    for(int i=0,a,b,c;i<m;i++){
+        cin>>a>>b>>c;
+        graph[a].push_back({b,c});
+        graph[b].push_back({a,c});
     }
 
-    vi v(n+1,INT_MAX);
-    v[1]=0;
+    // 초기화
+    for(int i=1;i<=n;i++) arr[i]=INT_MAX;
+    arr[1]=0;
 
-    priority_queue<pi, vpi, greater<pi>> pq;
     pq.push({0,1});
-
     while(pq.size()){
-        auto [cost,curr] = pq.top(); pq.pop();
-        
-        if(cost > v[curr]) continue;
-        
-        for(auto [w,next]:vec[curr]){
-            if(v[next] <= v[curr]+w) continue;
+        int cur_node = pq.top().second;
+        int cur_cost = pq.top().first; 
+        pq.pop();
 
-            v[next] = v[curr] + w;
-            pq.push({v[next], next});
+        if (cur_cost > arr[cur_node]) continue;
+        
+        for(int i=0;i<graph[cur_node].size();i++){
+            int n_node = graph[cur_node][i].first;
+            int c = graph[cur_node][i].second;
+
+            if(arr[n_node] > cur_cost+c){
+                arr[n_node] = cur_cost+c;
+                pq.push({arr[n_node],n_node});
+            }
         }
     }
 
-    cout << v[n];
+    cout<<arr[n]<<'\n';
 }
