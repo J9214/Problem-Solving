@@ -19,23 +19,18 @@ void print(vi vec){for(auto i : vec) cout << i << ' ';}
 int main(){
     FASTIO
  
-    int n, m; cin >> n >> m;
+    int n, m, res=0; cin >> n >> m;
     vvi vec(n,vi(m));
-    for(auto &i : vec) for(auto &j : i) {
-        char c; cin >> c;
-        j=c-'0';
-    }
 
-    vi s;
-    for(int i = 0 ; i <= 1000; i++) s.push_back(i*i);
-
-    int res =0;
     for(int i = 0 ; i < n ; i++){
         for(int j = 0; j < m; j++){
+            char c; cin >> c;
+            vec[i][j]=c-'0';
+
             if(!vec[i][j]) continue;
 
             int f = min({(i?vec[i-1][j]:0), (i&&j?vec[i-1][j-1]:0), (j?vec[i][j-1]:0)});
-            res = max(res,vec[i][j] = *upper_bound(s.begin(),s.end(),f));
+            res = max(res,vec[i][j] = pow(sqrt(f)+1,2));
         }
     }
     cout << res;
